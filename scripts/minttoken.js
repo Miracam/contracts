@@ -18,7 +18,7 @@ async function main() {
   const token = Token.attach("0xa22Ba08758C024F1570AFb0a3C09461d492A5950");
   console.log("token deployed to:", await token.getAddress());
 
-  await token.mint("0xf6e37cee1f92caf16c8c1f37a54680c87dcaf205", ethers.parseEther("1000"));
+  await token.mint("0xd7F168d89263e86D7671110a1c804b3A99fcB086", ethers.parseEther("777"));
 
 
 }
