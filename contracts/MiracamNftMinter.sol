@@ -4,6 +4,9 @@ import "./P256.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
 interface NFT {
     function safeMint(address to, string memory uri) external;
@@ -24,18 +27,23 @@ interface IPUSHCommInterface {
 }
 
 
-contract MiracamNftMinter is Initializable {
+contract MiracamNftMinter is Initializable, OwnableUpgradeable {
     NFT public nft;
     Attester public attester;
+
+    address public token;
+    event TokenSpent(address indexed owner, uint256 amount);
 
    /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
     }
 
-    function initialize(address _nft, address _attester) public initializer {
+    function initialize(address _nft, address _attester, address _token) public initializer {
+        __Ownable_init(msg.sender);
         nft = NFT(_nft);
         attester = Attester(_attester);
+        token = _token;
     }
 
      function broadcast(
@@ -89,4 +97,28 @@ contract MiracamNftMinter is Initializable {
         nft.safeMint(owner, url);
         broadcast("Miracam NFT Minted", "A new Miracam NFT has been minted");
     }
+
+
+    function setToken(address _token) external onlyOwner {
+        token = _token;
+    }
+
+    function spendToken(address owner, uint256 tokenAmount, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external {
+        // Execute the permit
+        IERC20Permit(address(token)).permit(
+            owner,
+            address(this),
+            tokenAmount,
+            deadline,
+            v,
+            r,
+            s
+        );
+        
+        // Transfer tokens from user to this contract
+        require(IERC20(token).transferFrom(owner, address(this), tokenAmount), "Transfer failed");
+        
+        emit TokenSpent(owner, tokenAmount);
+    }
+
 }
