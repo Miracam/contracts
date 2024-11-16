@@ -1,6 +1,5 @@
 import { expect } from "chai";
-import { ethers } from "hardhat";
-import ECDSA from 'ecdsa-secp256r1'
+import { ethers, upgrades } from "hardhat";
 import { MiracamNFT, MiracamNftMinter } from "../typechain-types";
 
 const AttesterAddress = "0xD798A4aDe873E2D447b43Af34e11882efEd911B1";
@@ -39,9 +38,8 @@ function derToRS(der: Buffer) {
     return [r, s]
 }
 
-describe("MiracamNFT", function () {
-    let miracamNFT: MiracamNFT;
-    let miracamNFTMinter: MiracamNftMinter;
+describe("MiracamNFTMinter", function () {
+    let miracamNFTMinter: any;
     
     beforeEach(async function () {
         // Deploy the Delta contract
@@ -49,8 +47,8 @@ describe("MiracamNFT", function () {
         const MiracamNFT = await ethers.getContractFactory("MiracamNFT");
         const miracamNFT = MiracamNFT.attach("0x4b79800e11fA527b01685056970D62878240Ea46") as MiracamNFT;
 
-
-        miracamNFTMinter = await ethers.deployContract("MiracamNftMinter", [miracamNFT.target, AttesterAddress]);
+        const MiracamNftMinter = await ethers.getContractFactory("MiracamNftMinter");
+        miracamNFTMinter = await upgrades.deployProxy(MiracamNftMinter, [miracamNFT.target, AttesterAddress]);
         await miracamNFTMinter.waitForDeployment();
         console.log("miracamNFTMinter deployed to:", await miracamNFTMinter.getAddress());
 

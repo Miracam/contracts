@@ -1,0 +1,93 @@
+{
+  "manifestVersion": "3.2",
+  "proxies": [
+    {
+      "address": "0x6733F146868822ddBeaDcC714CF443E498fde383",
+      "txHash": "0x2ec3182c2015eee1f028f7f16a0415a1d20aebe1520eafd53174b9b4aee142a5",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "650ca69b9b3b2b5915f05a8ff8e77a9c245ad8e8b2e912ca935fb3027da4f289": {
+      "address": "0xe23A5D4C829dd824fb872a3C8EE8c4de1E251A1a",
+      "txHash": "0x323cbda4284402f6ae507e3590cb46895548460ba9ca16607ea99483cd6cff46",
+      "layout": {
+        "solcVersion": "0.8.27",
+        "storage": [
+          {
+            "label": "nft",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_contract(NFT)6415",
+            "contract": "MiracamNftMinter",
+            "src": "contracts/MiracamNftMinter.sol:28"
+          },
+          {
+            "label": "attester",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_contract(Attester)6423",
+            "contract": "MiracamNftMinter",
+            "src": "contracts/MiracamNftMinter.sol:29"
+          }
+        ],
+        "types": {
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_struct(InitializableStorage)10_storage": {
+            "label": "struct Initializable.InitializableStorage",
+            "members": [
+              {
+                "label": "_initialized",
+                "type": "t_uint64",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_initializing",
+                "type": "t_bool",
+                "offset": 8,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_uint64": {
+            "label": "uint64",
+            "numberOfBytes": "8"
+          },
+          "t_contract(Attester)6423": {
+            "label": "contract Attester",
+            "numberOfBytes": "20"
+          },
+          "t_contract(NFT)6415": {
+            "label": "contract NFT",
+            "numberOfBytes": "20"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:69",
+              "offset": 0,
+              "slot": "0"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:73",
+              "offset": 8,
+              "slot": "0"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
