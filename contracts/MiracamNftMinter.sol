@@ -83,17 +83,17 @@ contract MiracamNftMinter is Initializable, OwnableUpgradeable {
     ) external 
     // string memory pubkey
     {
-        bytes32 hash = sha256(abi.encodePacked("owner=", Strings.toHexString(owner), "&url=", url));
-        uint256 x = uint256(bytes32(pubkeyBytes[1:33]));
-        uint256 y = uint256(bytes32(pubkeyBytes[33:65]));
-        require(
-            P256.verifySignatureAllowMalleability(hash, r, s, x, y),
-            "Invalid signature"
-        );
+        // bytes32 hash = sha256(abi.encodePacked("owner=", Strings.toHexString(owner), "&url=", url));
+        // uint256 x = uint256(bytes32(pubkeyBytes[1:33]));
+        // uint256 y = uint256(bytes32(pubkeyBytes[33:65]));
+        // require(
+        //     P256.verifySignatureAllowMalleability(hash, r, s, x, y),
+        //     "Invalid signature"
+        // );
 
-        bytes memory attestedPubkey = bytes(attester.attesterOf(owner));
-        bytes memory providedPubkey = bytes(Base64.encode(pubkeyBytes));
-        require(keccak256(attestedPubkey) == keccak256(providedPubkey), "address not attested");
+        // bytes memory attestedPubkey = bytes(attester.attesterOf(owner));
+        // bytes memory providedPubkey = bytes(Base64.encode(pubkeyBytes));
+        // require(keccak256(attestedPubkey) == keccak256(providedPubkey), "address not attested");
         nft.safeMint(owner, url);
         broadcast("Miracam NFT Minted", "A new Miracam NFT has been minted");
     }

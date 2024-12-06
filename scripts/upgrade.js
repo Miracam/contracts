@@ -13,22 +13,23 @@ async function main() {
   });
 
 
-  const MiracamNFT = await ethers.getContractFactory("MiracamNFT");
-  const miracamNFT = MiracamNFT.attach("0x4b79800e11fA527b01685056970D62878240Ea46");
+//   const MiracamNFT = await ethers.getContractFactory("MiracamNFT");
+//   const miracamNFT = MiracamNFT.attach("0x4b79800e11fA527b01685056970D62878240Ea46");
 
-  const Token = await ethers.getContractFactory("MiraFilm");
-//   const token = await Token.deploy();
-//   await token.waitForDeployment()
-  const token = Token.attach("0xa22Ba08758C024F1570AFb0a3C09461d492A5950");
-  console.log("token deployed to:", await token.getAddress());
+//   const Token = await ethers.getContractFactory("MiraFilm");
+// //   const token = await Token.deploy();
+// //   await token.waitForDeployment()
+//   const token = Token.attach("0xa22Ba08758C024F1570AFb0a3C09461d492A5950");
+//   console.log("token deployed to:", await token.getAddress());
 
   const MiracamNftMinter = await ethers.getContractFactory("MiracamNftMinter");
-  const miracamNFTMinter = await upgrades.deployProxy(MiracamNftMinter, [miracamNFT.target, AttesterAddress, token.target]);
+  // const miracamNFTMinter = await upgrades.deployProxy(MiracamNftMinter, [miracamNFT.target, AttesterAddress, token.target]);
+  const miracamNFTMinter = await upgrades.upgradeProxy("0x9D083152dC00b6964D8145E8D7e7E1a300Ff23f5", MiracamNftMinter);
   await miracamNFTMinter.waitForDeployment();
   console.log("miracamNFTMinter deployed to:", await miracamNFTMinter.getAddress());
 
-  const MINTER_ROLE = await miracamNFT.MINTER_ROLE()
-  await miracamNFT.grantRole(MINTER_ROLE, miracamNFTMinter.target);
+  // const MINTER_ROLE = await miracamNFT.MINTER_ROLE()
+  // await miracamNFT.grantRole(MINTER_ROLE, miracamNFTMinter.target);
 
 
 
